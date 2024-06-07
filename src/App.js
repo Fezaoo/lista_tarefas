@@ -10,12 +10,24 @@ function App() {
   const [ListaDeTarefas, setListaDeTarefas] = useState([])
 
   function criar_tarefa() {
+    const nova_tarefa = { tarefa: TarefaTitle, categoria: TarefaCategoria }
     if (TarefaTitle !== "") {
-      const nova_tarefa = [TarefaTitle, TarefaCategoria]
-      setListaDeTarefas([...ListaDeTarefas, nova_tarefa]);
-      setTarefaTitle("")
-      console.log(ListaDeTarefas)
-    } else {alert("Adicione um título à tarefa!")}
+      if (!ListaDeTarefas.find(tarefa => tarefa.tarefa === TarefaTitle && tarefa.categoria === TarefaCategoria)) {
+
+        setListaDeTarefas([...ListaDeTarefas, nova_tarefa]);
+        setTarefaTitle("")
+        console.log(ListaDeTarefas)
+      } else {alert("Tarefa já existe!")}
+    } else { alert("Adicione um título à tarefa!") }
+  }
+
+  function ordenar_tarefas(abc){
+    if (abc) {
+      setListaDeTarefas([...ListaDeTarefas.sort((a, b) => a.tarefa.localeCompare(b.tarefa))])
+      } else {
+      setListaDeTarefas([...ListaDeTarefas.sort((a, b) => a.tarefa.localeCompare(b.tarefa)).reverse()])
+    }
+    console.log("ORdenado")
   }
 
   return (
@@ -56,8 +68,8 @@ function App() {
                   Ordem Alfabética
                 </label>
                 <div className='ordem_button_container'>
-                  <button className='ordem_button'>ABC</button>
-                  <button className='ordem_button'>ZYX</button>
+                  <button className='ordem_button' onClick={(e) => ordenar_tarefas(true)}>ABC</button>
+                  <button className='ordem_button' onClick={(e) => ordenar_tarefas(false)}>ZYX</button>
                 </div>
               </div>
             </div>

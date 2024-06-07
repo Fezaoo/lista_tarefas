@@ -6,8 +6,8 @@ function TarefaList({tarefa}) {
             {tarefa.map((tarefa, index)=>(
                 <TarefaCard
                 key={index}
-                titulo={tarefa[0]}
-                categoria={tarefa[1]}
+                titulo={tarefa.tarefa}
+                categoria={tarefa.categoria}
                 />
             ))}
         </div>
