@@ -8,12 +8,13 @@ function App() {
   const [TarefaTitle, setTarefaTitle] = useState("")
   const [TarefaCategoria, setTarefaCategoria] = useState("Trabalho")
   const [ListaDeTarefas, setListaDeTarefas] = useState([])
+  const [Filtro, setFiltro] = useState("Todas")
+  const [Pesquisa, setPesquisa] = useState("")
 
   function criar_tarefa() {
-    const nova_tarefa = { tarefa: TarefaTitle, categoria: TarefaCategoria }
+    const nova_tarefa = { tarefa: TarefaTitle, categoria: TarefaCategoria, completa: false}
     if (TarefaTitle !== "") {
       if (!ListaDeTarefas.find(tarefa => tarefa.tarefa === TarefaTitle && tarefa.categoria === TarefaCategoria)) {
-
         setListaDeTarefas([...ListaDeTarefas, nova_tarefa]);
         setTarefaTitle("")
         console.log(ListaDeTarefas)
@@ -27,7 +28,16 @@ function App() {
       } else {
       setListaDeTarefas([...ListaDeTarefas.sort((a, b) => a.tarefa.localeCompare(b.tarefa)).reverse()])
     }
-    console.log("ORdenado")
+  }
+
+  function toggleTarefaStatus(index) {
+    const novaLista = ListaDeTarefas.map((tarefa, i) => i === index ? {...tarefa, completa: !tarefa.completa} : tarefa)
+    setListaDeTarefas(novaLista)
+  }
+
+  function excluirTarefa(index){
+    const novaLista = ListaDeTarefas.filter((tarefa, i) => i !== index)
+    setListaDeTarefas(novaLista)
   }
 
   return (
@@ -42,7 +52,7 @@ function App() {
               Pesquisar:
             </h2>
             <div className='pesquisar_input_container'>
-              <input className='pesquisar_input input_border' placeholder='Digite para pesquisar' />
+              <input onChange={(e) => setPesquisa(e.target.value)} className='pesquisar_input input_border' placeholder='Digite para pesquisar' />
             </div>
           </div>
           <hr></hr>
@@ -56,7 +66,7 @@ function App() {
                   Status
                 </label>
                 <div className='status_select_container'>
-                  <select className='select status_select input_border'>
+                  <select defaultValue={Filtro} onChange={(e) => setFiltro(e.target.value)} className='select status_select input_border'>
                     <option>Todas</option>
                     <option>Completas</option>
                     <option>Incompletas</option>
@@ -79,7 +89,7 @@ function App() {
             <h2 className='section_title tarefas_title'>Tarefas</h2>
 
             <div>
-              <TarefaList tarefa={ListaDeTarefas} />
+              <TarefaList pesquisa={Pesquisa} filtro={Filtro} tarefa={ListaDeTarefas} toggleTarefaStatus={toggleTarefaStatus} excluirTarefa={excluirTarefa} />
             </div>
 
           </div>

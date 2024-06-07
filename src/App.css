@@ -161,3 +161,12 @@ label {
 .input_border {
   border: 1px solid rgba(0, 0, 0, 0.185);
 }
+.tarefa_completa_card{
+  background-color: rgb(230, 230, 230);
+}
+.tarefa_completa_title{
+  text-decoration: line-through;
+}
+.tarefa_completa_button{
+  background-color: rgb(72, 102, 72);
+}
